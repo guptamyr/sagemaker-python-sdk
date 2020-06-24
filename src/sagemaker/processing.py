@@ -739,6 +739,64 @@ class ProcessingJob(_Job):
         """Stops the processing job."""
         self.sagemaker_session.stop_processing_job(self.name)
 
+    @staticmethod
+    def _prepare_app_specification(container_arguments, container_entrypoint, image_uri):
+        """
+        Args:
+            container_arguments:
+            container_entrypoint:
+            image_uri:
+        """
+        config = {}
+        if container_arguments is not None:
+            config["ContainerArguments"] = container_arguments
+        if container_entrypoint is not None:
+            config["ContainerEntrypoint"] = container_entrypoint
+        config["ImageUri"] = image_uri
+        return config
+
+    @staticmethod
+    def _prepare_output_config(kms_key_id, outputs):
+        """
+        Args:
+            kms_key_id:
+            outputs:
+        """
+        config = {}
+        if kms_key_id is not None:
+            config["KmsKeyId"] = kms_key_id
+        config["Outputs"] = outputs
+        return config
+
+    @staticmethod
+    def _prepare_processing_resources(instance_count, instance_type, volume_kms_key_id, volume_size_in_gb):
+        """
+        Args:
+            instance_count:
+            instance_type:
+            volume_kms_key_id:
+            volume_size_in_gb:
+        """
+        processing_resources = {}
+        cluster_config = {}
+        if volume_kms_key_id is not None:
+            cluster_config["VolumeKmsKeyId"] = volume_kms_key_id
+        cluster_config["InstanceCount"] = instance_count
+        cluster_config["InstanceType"] = instance_type
+        cluster_config["VolumeSizeInGB"] = volume_size_in_gb
+        processing_resources["ClusterConfig"] = cluster_config
+        return processing_resources
+
+    @staticmethod
+    def _prepare_stopping_condition(max_runtime_in_seconds):
+        """
+        Args:
+            max_runtime_in_seconds
+        """
+        stopping_condition={}
+        stopping_condition["MaxRuntimeInSeconds"] = max_runtime_in_seconds
+        return stopping_condition
+
 
 class ProcessingInput(object):
     """Accepts parameters that specify an Amazon S3 input for a processing job and
