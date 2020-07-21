@@ -1169,4 +1169,8 @@ def input_output_list_converter(object_list):
     Returns:
         List of dicts
     """
-    return [obj._to_request_dict() for obj in object_list]
+    if object_list is not None:
+        dict_list = [obj._to_request_dict() for obj in object_list]
+    else:
+        dict_list = object_list
+    return dict_list
