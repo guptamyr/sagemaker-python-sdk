@@ -289,7 +289,8 @@ class ScriptProcessor(Processor):
         network_config=None,
     ):
         """Initializes a ``ScriptProcessor`` instance. The ``ScriptProcessor``
-        handles Amazon SageMaker Processing tasks for jobs using a machine learning framework.
+        handles Amazon SageMaker Processing tasks for jobs using a machine learning framework,
+        which allows for providing a script to be run as part of the Processing Job.
 
         Args:
             role (str): An AWS IAM role name or ARN. Amazon SageMaker Processing
@@ -800,8 +801,8 @@ class ProcessingJob(_Job):
 
         Returns:
             dict: Represents ProcessingResources which identifies the resources,
-            ML compute instances, and ML storage volumes to deploy
-            for a processing job.
+                ML compute instances, and ML storage volumes to deploy
+                for a processing job.
         """
         processing_resources = {}
         cluster_config = {
